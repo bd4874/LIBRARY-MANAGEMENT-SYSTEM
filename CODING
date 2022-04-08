@@ -1,0 +1,222 @@
+TABLE CREATION 
+CREATE TABLE Book_Details( 
+   Bid NUMBER(4), 
+   Btitle VARCHAR(100), 
+   Lang VARCHAR(10), 
+   Pid NUMBER(4), 
+   Pyear NUMBER(4), 
+   No_copy_actual NUMBER(8), 
+   No_copy_current NUMBER(8), 
+   Cid NUMBER(4), 
+   PRIMARY KEY(Bid), 
+   FOREIGN KEY(Pid) REFERENCES Publisher_Details(Pid), 
+   FOREIGN KEY(Cid) REFERENCES Category_Details(Cid)  
+); 
+DESC Book_Details; 
+ 
+ 
+CREATE TABLE Publisher_Details 
+( 
+   Pid NUMBER(4), 
+   Pname VARCHAR(30)not null, 
+   PRIMARY KEY(Pid));  
+Library Management System                                                                                            
+DESC Publisher_Details; 
+ 
+CREATE TABLE Category_Details 
+( 
+    Cid NUMBER(4), 
+    CName VARCHAR(30), 
+    PRIMARY KEY(Cid) 
+); 
+DESC Category_Details; 
+ 
+ 
+CREATE TABLE Borrower_Details  
+( 
+   Bar_id NUMBER(3), 
+   Bid NUMBER(4) not null, 
+   Bar_from_date Date not null, 
+   Bar_to_date Date not null, 
+   Returned_date Date, 
+   Issued_by NUMBER(4) not null, 
+   PRIMARY KEY(Bar_id,Bid), 
+   FOREIGN KEY(Bid) REFERENCES Book_Details(Bid), 
+   FOREIGN KEY(Issued_by) REFERENCES Staff_Details(Staff_id) 
+); 
+DESC Borrower_Details; 
+ 
+ 
+ 
+CREATE TABLE Staff_Details  
+( 
+   Staff_Id NUMBER(4), 
+   Staff_Name varchar(50) not null, 
+   Password varchar(16) not null, 
+   Is_Admin binary_float not null, 
+   Designation varchar(20) not null, 
+   PRIMARY KEY(Staff_id) 
+); 
+DESC Staff_Details; 
+ 
+CREATE TABLE Student_Details 
+( 
+   Sid VARCHAR(10), 
+   PRIMARY KEY(Sid), 
+   Bar_id NUMBER(3)not null,  
+   Sname Varchar(20) not null, 
+   Sex VARCHAR(7) not null, 
+   Date_of_birth DATE not null, 
+   Department VARCHAR(20) not null,  
+Library Management System                                                                                             
+   Contact_no NUMBER(10)  
+); 
+Desc Student_Details; 
+ 
+Create Table Shelf_Details( 
+  Shelf_id NUMBER(3), 
+  Shelf_no NUMBER(3)not null, 
+  Floor NUMBER(2), 
+  PRIMARY KEY(Shelf_id) 
+); 
+Adding Relationship Between Shelf and Book Table: 
+ALTER TABLE Book_Details 
+ADD (Shelf_Id NUMBER(3)); 
+ 
+ALTER TABLE Book_Details  
+ADD CONSTRAINT Shelf_Id_FK FOREIGN KEY(Shelf_Id) REFERENCES 
+Shelf_Details(Shelf_Id); 
+ 
+DESC Shelf_Details; 
+  
+ 
+ 
+ 
+ 
+Library Management System                                                                                             
+5.2 VALUES INSERTION 
+ 
+Book_Details Table: 
+insert into Book_Details values 
+(1225,'Programming Concepts','English',1,2014,20,15,1,1); insert into Book_Details values 
+(1226,'Introduction to Database','English',2,2010,15,10,2,2); insert into Book_Details values 
+(1227,'Data Communication and Network','English',2,2010,20,10,3,2); 
+Insert into Book_Details Values 
+(1228,'Communication Networks-Fundamental Concepts and Key architectures','English',2,2014,30,15,3,2); 
+Insert into Book_Details Values 
+(1234,'Software Engineering-A Practitioners approach','English',2,2019,20,10,4,1); Insert into Book_Details values 
+(1235,'Software Engineering- A Precise Approach','English',3,2010,12,12,4,1); Insert into Book_Details values 
+(1246,'The Complete Reference-Java','English',4,2016,40,23,1,1); 
+ 
+Select *From Book_Details; 
+ 
+Publisher_Details Table 
+Insert Into Publisher_Details values(1,'BPB Publications'); 
+Insert Into Publisher_Details values(2,'McGrow Hill'); 
+Insert Into Publisher_Details values(3,'Wiley'); 
+Insert Into Publisher_Details values(4,'TMH Publications'); 
+Select *From Publisher_Details; 
+ 
+  
+Library Management System                                                                                            
+Category_Details Table 
+Insert into Category_Details values(1,'Programming Lang'); 
+Insert into Category_Details values(2,'Database'); 
+Insert into Category_Details values(3,'Networking'); 
+Insert into Category_Details values(4,'Software Engg'); 
+ 
+Select *From Category_Details; 
+ 
+Staff_Details Table 
+Insert into Staff_Details values(1,'Hemanth M','123@drait',0,'Library Manager'); 
+Insert into Staff_Details values(2,'Shashi Priya N','shashi@drait',0,'Library Clerk'); Select *From Staff_Details; 
+ 
+Student_Details Table 
+Insert into Student_Details values('1DA18CS047',1,'Divakar D','Male','29-OCT2000','CSE',8073693183); 
+Insert into Student_Details values('1DA18CS061','Karthik S','Male','12-Feb2000','CSE',8163689183); 
+Insert Into Student_Details values('1DA18CV050',3,'Varsha KV','Female','14-Mar2000','CV',9910123719); 
+Select *From Student_Details;  
+ 
+Library Management System                                                                                             Page no. 21 
+Borrower_Details Table 
+Insert into Borrower_Details values(1,1225,'12-oct-2020','25-oct-2020',29-Oct-2020,1); 
+Insert into Borrower_Details values(1,1226,'12-oct-2020','25-oct-2020',Null,1); 
+Insert into Borrower_Details values(2,1228,'23-Nov-2020','03-Dec-2020',Null,2); 
+Insert into Borrower_Details values(3,1235,'23-Nov-2020','03-Dec-2020',Null,2); Select *From Borrower_Details; 
+ 
+Shelf_Details Table 
+Insert into Shelf_Details Values(1,1,1); 
+Insert into Shelf_Details Values(2,2,2); 
+Insert into Shelf_Details Values(3,1,2); 
+Select *From Shelf_Details; 
+ 
+ 
+5.3 QUERIES 
+ 
+The most common operation in SQL, the query, makes use of the declarative. SELECT statement. SELECT retrieves data from one or more tables, or expressions Standard SELECT statements have no persistent effects on the database. Some non-standard implementations of SELECT can have persistent effects, such as the SELECT INTO Syntax provided in some databases 
+Queries allow the user to describe desired data, leaving the database management system (DBMS) to carry out planning, optimizing, and performing the physical operations necessary to produce that result as chooses. A query includes a list of columns to include in the final result, normally immediately following the SELECT keyword. An asterisk (“*”) can be used to specify that the query should return all columns of the queried tables. 
+SELECT is the most complex statement in SQL, with optional keywords and clauses that include: 
+ 
+Library Management System                                                                                             
+•	The FROM clause,  which indicates the table(s) to retrieve data from The FROM clause can include optional JOIN sub-clauses to specify the rules for joining tables.  
+•	The WHERE clause includes a comparison predicate, which restricts the rows returned by the query. The WHERE clause eliminates all rows from the result set where the comparison predicate does not evaluate to True. 
+•	The GROUP BY clause projects rows having common values into a smaller set of rows. GROUP BY is often used in conjunction with SQL aggregation functions or to eliminate duplicate rows from a result set. The WHERE clause is applied before the GROUP BY clause 
+•	The HAVING clause includes a predicate used to filter rows resulting from the GROUP BY clause. Because it acts on the results of the GROUP BY clause, aggregation functions can be used in the HAVING clause predicate. 
+•	The ORDER BY clause identifies which column(s) to use to sort the resulting data, and in which direction to sort them (ascending or descending). Without an ORDER BY clause, the order of rows returned by an SQL query is undefined.  • The DISTINCT keyword eliminates duplicate data. 
+ 
+QUERY 1: List the Book Name and year of publication that is published Under McGrow Hill 
+SOLUTION:  Select Btitle,Pyear 
+                        From Book_Details                          where Pid In(Select Pid  
+                                               From Publisher_Details                                                 where Pname='McGrow Hill'); 
+ 
+ 
+QUERY 2: List Book Name and their Publisher Name and also to which category the books are belongs to and show where these books are placed 
+SOLUTION: 
+Select b.Btitle, p.Pname, c.CName, s.shelf_Id, s.Floor, s.Shelf_no 
+from Book_Details b, Publisher_Details p, Category_Details c, Shelf_Details s   where b.Pid=p.Pid and b.Cid=c.Cid and b.Shelf_Id=s.Shelf_Id; 
+ 
+Library Management System                                                                                             
+ 
+ 
+ 
+QUERY 3: List the Student Details who borrowed more than one book 
+SOLUTION: 
+Select Student_Details.Sname, Student_Details.Sid, Student_Details.Department, 
+Student_Details.Contact_no  From Student_Details  
+where Student_Details.Bar_id In(Select Borrower_Details.Bar_id  
+From Borrower_Details  
+Group By Bar_id  
+Having Count(Bar_id)>1); 
+ 
+QUERY 4: List the Student Id and names of all students who Borrowed books from the library and find the name of staff who issued that book to student and sort by Student ID 
+SOLUTION: 
+Select student.Sid, student.Sname, book.Btitle, staff.Staff_name, b.Bar_from_date, b.Bar_To_date, b.Returned_date, shelf.Shelf_no  
+From Student_Details student, Staff_Details staff, Borrower_Details b, Book_details book, Shelf_Details shelf where student.Bar_id=b.Bar_id and book.Bid=b.Bid and b.Issued_by=staff.Staff_id and book.Shelf_Id=shelf.Shelf_Id  
+Order By Sid;  
+ 
+Library Management System                                                                                             
+Query 5: List the names of Students and Book name issued by manager of Library 
+SOLUTION:  
+Select Distinct Sname, Sid, BTitle, Issued_By  
+From student_Details s, Book_Details b 
+Join Borrower_Details bb on b.Bid=bb.Bid 
+Join Staff_Details ss on bb.Issued_by=ss.Staff_id 
+where ss.Designation='Library Manager' and s.Bar_id=bb.Bar_id; 
+ 	 
+ 
+ 
+QUERY 6: Display the Category names of the book taken by a student named “Varsha KV” order by category name 
+SOLUTION: 
+Select Cname  
+From Category_Details c Join Book_Details b on b.Cid=c.Cid 
+Join Borrower_Details bb on b.Bid=bb.Bid Join Student_Details s on bb.Bar_id=s.Bar_id where Sname='Varsha KV' order by Cname; 
+ 
+ 
+  
+ 	 
+ 
+Library Management System                                                                                             
+CONCLUSION 
+ 
+The project Library Management System (HMS) is for computerizing the working in a library. The software takes care of all the requirements of an average library and is capable to provide easy and effective storage of information related to Borrowers and staffs that come up to the library, 
+This system is capable of taking care of books and their details, number of books available in a library, it maintains staff details, students borrowed books and issued books, this system take cares provide an easy way of searching books in a library by keep record of shelf details, when this kind computerized system meets the real world requirements behavior may change but the underlying architecture remains the same. 
